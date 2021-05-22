@@ -3,9 +3,9 @@ package com.hakan.BookShop.service;
 import com.hakan.BookShop.model.Book;
 import com.hakan.BookShop.repository.BookRepository;
 import java.util.List;
-import java.util.Optional;
-import javassist.NotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class BookService {
@@ -24,13 +24,9 @@ public class BookService {
     return bookRepository.save(book);
   }
 
-  public Book findByGivenId(Long id) throws NotFoundException {
-    Optional<Book> book = bookRepository.findById(id);
-    if (book.isPresent()) {
-      return book.get();
-    } else {
-      throw new NotFoundException("Element with given id is not found");
-    }
+  public Book findByGivenId(Long id) throws ResponseStatusException {
+    return bookRepository.findById(id)
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
   }
 
   public Book update(Book book) {
