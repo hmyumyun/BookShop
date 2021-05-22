@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 @Controller
-public class BookController {
+public class BooksMvcController {
 
   private final BookService bookService;
 
-  public BookController(BookService bookService) {
+  public BooksMvcController(BookService bookService) {
     this.bookService = bookService;
   }
 
@@ -35,7 +35,7 @@ public class BookController {
   }
 
   @GetMapping("/getBook/{id}")
-  public String getBook(@PathVariable Long id, Model model) throws NotFoundException {
+  public String getBook(@PathVariable Long id, Model model)  {
     Book book = bookService.findByGivenId(id);
     List<Book> books = bookService.allBooks();
     model.addAttribute("books", books);
